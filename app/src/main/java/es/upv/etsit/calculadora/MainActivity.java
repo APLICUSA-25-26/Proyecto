@@ -13,6 +13,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import android.graphics.Color;
+import android.widget.Button;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView display;
     DecimalFormat df;
+    boolean modoOscuro = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +63,76 @@ public class MainActivity extends AppCompatActivity {
         estado = ESTADOS.INIC;
     }
 
+    public void cambiarModo(View v) {
+        modoOscuro = !modoOscuro;
+
+        View root = findViewById(R.id.main);
+        Button btn = (Button) v;
+
+        if (modoOscuro) {
+            root.setBackgroundColor(Color.parseColor("#121212"));
+            display.setTextColor(Color.WHITE);
+            btn.setText("☀️ Modo claro");
+        } else {
+            root.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            display.setTextColor(Color.BLACK);
+            btn.setText("🌙 Modo oscuro");
+
+
+        }
+    }
+
     public void alPulsarTecla(View tecla){
 
         int id = tecla.getId();
+
+
+        //
+        if ( id == R.id.b_raiz ) {
+            if (estado == ESTADOS.NUMERO) {
+                operando2 = Math.sqrt(operando2);
+                operando2_str = miDoubleToString(operando2);
+                display.setText(operando2_str);
+            } else {
+                acumulador = Math.sqrt(acumulador);
+                display.setText(miDoubleToString(acumulador));
+            }
+        }
+
+        else if ( id == R.id.b_porcentaje ) {
+            if (estado == ESTADOS.NUMERO) {
+                operando2 = operando2 / 100.0;
+                operando2_str = miDoubleToString(operando2);
+                display.setText(operando2_str);
+            } else {
+                acumulador = acumulador / 100.0;
+                display.setText(miDoubleToString(acumulador));
+            }
+        }
+
+        else if ( id == R.id.b_seno ) {
+            if (estado == ESTADOS.NUMERO) {
+                operando2 = Math.sin(Math.toRadians(operando2));
+                operando2_str = miDoubleToString(operando2);
+                display.setText(operando2_str);
+            } else {
+                acumulador = Math.sin(Math.toRadians(acumulador));
+                display.setText(miDoubleToString(acumulador));
+            }
+        }
+
+        else if ( id == R.id.b_coseno ) {
+            if (estado == ESTADOS.NUMERO) {
+                operando2 = Math.cos(Math.toRadians(operando2));
+                operando2_str = miDoubleToString(operando2);
+                display.setText(operando2_str);
+            } else {
+                acumulador = Math.cos(Math.toRadians(acumulador));
+                display.setText(miDoubleToString(acumulador));
+            }
+        }
+        //
+
 
         if ( id == R.id.b_punto ) {
             // Solo añadir punto si no hay ya uno
